@@ -1,0 +1,202 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+SinglePlayerGarage
+</name>
+</assembly>
+<members>
+<member name="T:SinglePlayerGarage.My.Resources.Resources">
+<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+<member name="P:SinglePlayerGarage.My.Resources.Resources.ResourceManager">
+<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member>
+<member name="P:SinglePlayerGarage.My.Resources.Resources.Culture">
+<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member>
+<member name="T:SinglePlayerGarage.ModelRoot">
+ <summary>
+ This class models the root of the tree structure. It conains the Item
+ collection that makes up the root elemnts And all other information items
+ that apply to the complete tree structure (e.g.: Version Info etc.)
+ 
+ A Public class definition Is required for XML Serialization
+ via XmlSerializer to work
+ https://docs.microsoft.com/en-us/previous-versions/windows/apps/swxzdhc0(v=vs.105)?f1url=https%3A%2F%2Fmsdn.microsoft.com%2Fquery%2Fdev15.query%3FappId%3DDev15IDEF1%26l%3DEN-US%26k%3Dk(System.Xml.Serialization.XmlSerializer)%3Bk(TargetFrameworkMoniker-.NETFramework%2CVersion%3Dv4.6.1)%3Bk(DevLang-csharp)%26rd%3Dtrue
+ </summary>
+</member>
+<member name="M:SinglePlayerGarage.ModelRoot.#ctor(System.String)">
+ <summary>
+ Parameterized class constructor
+ </summary>
+ <param name="par_name"></param>
+</member>
+<member name="M:SinglePlayerGarage.ModelRoot.#ctor">
+ <summary>
+ Class constructor
+ This public constructor Is required for XML Serialization
+ (reading Xml) to work.
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.ModelRoot.RootItems">
+ <summary>
+ Gets/sets the list of root Items below this root item.
+ These items male up the root items that belong to
+ the base of the tree structure.
+ 
+ Public properties (Or fields) with public setter And getter
+ are necessary for XML Serialization via XmlSerializer to work
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.ModelRoot.Version">
+ <summary>
+ Gets/sets the version portion of this object.
+ 
+ Public Setter And Getter are required for the XmlSerializer
+ to function for writting And reading XML data.
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.ModelRoot.MinorVersion">
+ <summary>
+ Gets/sets the minor version portion of this object.
+ 
+ Public Setter And Getter are required for the XmlSerializer
+ to function for writting And reading XML data.
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.ModelRoot.Name">
+ <summary>
+ Gets/sets the name of this object.
+ 
+ Public Setter And Getter are required for the XmlSerializer
+ to function for writting And reading XML data.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SinglePlayerGarage.ModelRoot.ToString">
+ <summary>
+ Gets the contents of this object in a human readable way.
+ </summary>
+ <returns></returns>
+</member>
+<member name="T:SinglePlayerGarage.Item">
+ <summary>
+ This class models the items that make up the tree structure.
+ 
+ A Public class definition Is required for XML Serialization
+ via XmlSerializer to work
+ https://docs.microsoft.com/en-us/previous-versions/windows/apps/swxzdhc0(v=vs.105)?f1url=https%3A%2F%2Fmsdn.microsoft.com%2Fquery%2Fdev15.query%3FappId%3DDev15IDEF1%26l%3DEN-US%26k%3Dk(System.Xml.Serialization.XmlSerializer)%3Bk(TargetFrameworkMoniker-.NETFramework%2CVersion%3Dv4.6.1)%3Bk(DevLang-csharp)%26rd%3Dtrue
+ </summary>
+</member>
+<member name="M:SinglePlayerGarage.Item.#ctor(SinglePlayerGarage.Item@,System.String)">
+ <summary>
+ Class constructor
+ </summary>
+ <param name="par_parent"></param>
+ <param name="par_id"></param>
+</member>
+<member name="M:SinglePlayerGarage.Item.#ctor(SinglePlayerGarage.Item@,System.String,System.Collections.Generic.List{SinglePlayerGarage.Item}@)">
+ <summary>
+ Parameterized class constructor
+ </summary>
+ <param name="par_parent"></param>
+ <param name="par_id"></param>
+ <param name="par_children"></param>
+</member>
+<member name="M:SinglePlayerGarage.Item.#ctor">
+ <summary>
+ Class constructor
+ This public constructor Is required for XML Serialization
+ (reading Xml) to work.
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.Item.Text">
+ <summary>
+ Gets/sets the Text of a Item item.
+ 
+ Public properties (Or fields) with public setter And getter
+ are necessary for XML Serialization via XmlSerializer to work
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.Item.Children">
+ <summary>
+ Gets/sets the list of child Items below this Item item.
+ 
+ Public properties (Or fields) with public setter And getter
+ are necessary for XML Serialization via XmlSerializer to work
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.Item.Parent">
+ <summary>
+ Gets/sets the parent Item of this Item object.
+ 
+ The [XmlIgnore] Is required here, because the XmlSerializer will
+ otherwise complain about a circular dependency that cannot be resolved
+ (this Is a limitation of the XML format).
+ 
+ Solution: Use an ParentId data item (e.g.: Text of parent) to resolve this
+ situation without a reference to another object.
+ </summary>
+</member>
+<member name="P:SinglePlayerGarage.Item.ParentId">
+ <summary>
+ Gets/sets the Parent Text (if there Is a parent) for this object.
+ 
+ This field should Not be set directly as it Is set through
+ the setter in the Parent property of this class.
+ 
+ Public Setter And Getter are required for the XmlSerializer
+ to function for writting And reading XML data.
+ </summary>
+</member>
+<member name="M:SinglePlayerGarage.Item.GetPath(SinglePlayerGarage.Item)">
+ <summary>
+ Gets the path of this Item be collecting information
+ from parent Items back to the root.
+ </summary>
+ <param name="current"></param>
+ <returns></returns>
+</member>
+<member name="M:SinglePlayerGarage.Item.ToString">
+ <summary>
+ Gets the contents of this object in a human readable way.
+ </summary>
+ <returns></returns>
+</member>
+<member name="M:SinglePlayerGarage.XMLRead.WriteXmlToString``1(``0)">
+<summary>
+ Writes the associated XML of class Model T into string And returns it.
+</summary>
+</member>
+<member name="M:SinglePlayerGarage.XMLRead.WriteXmlToFile``1(System.String,``0)">
+<summary>
+ Writes the associated XML of class Model T into a file.
+</summary>
+</member>
+<member name="M:SinglePlayerGarage.XMLRead.ReadXmlFromString``1(System.String)">
+<summary>
+ Reads the associated XML of class Model T from a string into an
+ instance of class model T And returns it.
+
+ An exception Is thrown if the XML appears to be invalid for class model T.
+</summary>
+</member>
+<member name="M:SinglePlayerGarage.XMLRead.ReadXmlFromFile``1(System.String)">
+<summary>
+ Reads the associated XML of class Model T
+ from a file into an instance of class model T
+ And returns it.
+
+ An exception Is thrown if the XML appears to be invalid for class model T.
+</summary>
+</member>
+</members>
+</doc>

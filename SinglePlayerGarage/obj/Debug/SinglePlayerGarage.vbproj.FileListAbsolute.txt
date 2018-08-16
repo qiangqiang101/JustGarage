@@ -1,0 +1,13 @@
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\bin\Debug\SinglePlayerGarage.dll
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\bin\Debug\SinglePlayerGarage.pdb
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\bin\Debug\SinglePlayerGarage.xml
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\bin\Debug\INMNativeUI.dll
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\bin\Debug\ScriptHookVDotNet2.dll
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\bin\Debug\INMNativeUI.pdb
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\bin\Debug\ScriptHookVDotNet2.xml
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.vbprojResolveAssemblyReference.cache
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.Resources.resources
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.vbproj.GenerateResource.Cache
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.dll
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.xml
+e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.pdb
