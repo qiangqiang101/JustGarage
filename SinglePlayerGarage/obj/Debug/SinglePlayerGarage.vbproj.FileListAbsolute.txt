@@ -11,3 +11,14 @@ e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePl
 e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.dll
 e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.xml
 e:\users\barry\documents\visual studio 2015\Projects\SinglePlayerGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.pdb
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\bin\Debug\SinglePlayerGarage.dll
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\bin\Debug\SinglePlayerGarage.pdb
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\bin\Debug\SinglePlayerGarage.xml
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\bin\Debug\INMNativeUI.pdb
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\bin\Debug\ScriptHookVDotNet2.xml
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.vbprojResolveAssemblyReference.cache
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.Resources.resources
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.vbproj.GenerateResource.Cache
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.dll
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.xml
+C:\Users\Potato\Documents\GitHub\JustGarage\SinglePlayerGarage\obj\Debug\SinglePlayerGarage.pdb

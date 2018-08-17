@@ -17,17 +17,16 @@
     Public Property Version As Integer
     Public Property MinorVersion As Integer
     Public Property Name As String
-
+    Public Property Save As String
     Public Property Floor As Integer
     Public Property Cost As Integer
     Public Property Description As String
     Public Property GaragePath As String
     Public Property Layout As Integer
-
-    Public Property SaveFile As String
-    Public Property PlayerMap As String
+    Public Property RequiredIPL As Boolean
     Public Property InteriorID As Integer
     Public Property Vectors As GVectors
+    Public Property SellSignModel As Integer
 
 
     Public Overrides Function ToString() As String
@@ -74,7 +73,7 @@ Public Class GVectors
 
     Private _Parent As Item
 
-    Public Sub New(ByRef par_parent As Item, ByVal fe As GVector, ByVal ve As GVector, ByVal fq As GVector, ByVal fq2 As GVector, ByVal e As GVector, ByVal ma As GVector, ByVal h As Single, ByVal cp As GVector, ByVal cr As GVector, ByVal fv As Single, ByVal i As GVector)
+    Public Sub New(ByRef par_parent As Item, ByVal fe As GVector, ByVal ve As GVector, ByVal fq As GVector, ByVal fq2 As GVector, ByVal e As GVector, ByVal ma As GVector, ByVal h As Single, ByVal i As GVector, ByVal ss As GVector)
         Me.New()
 
         Parent = par_parent
@@ -85,10 +84,8 @@ Public Class GVectors
         Elevator = e
         MenuActivator = ma
         Heading = h
-        CameraPosition = cp
-        CameraRotation = cr
-        FOV = fv
         Interior = i
+        SellSignPosition = ss
     End Sub
 
     Public Sub New()
@@ -99,10 +96,8 @@ Public Class GVectors
         Elevator = GVector.Zero
         MenuActivator = GVector.Zero
         Heading = 0.0F
-        CameraPosition = GVector.Zero
-        CameraRotation = GVector.Zero
-        FOV = 0.0F
         Interior = GVector.Zero
+        SellSignPosition = GVector.Zero
         Parent = Nothing
     End Sub
 
@@ -113,12 +108,10 @@ Public Class GVectors
     Public Property Elevator As GVector
     Public Property MenuActivator As GVector
     Public Property Heading As Single
-    Public Property CameraPosition As GVector
-    Public Property CameraRotation As GVector
-    Public Property FOV As Single
     Public Property Interior As GVector
+    Public Property SellSignPosition As GVector
 
-    Public Overrides Function ToString() As String
-        Return String.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}", FootEntrance, VehicleEntrance, FootExit, FootExit2, Elevator, MenuActivator, Heading, CameraPosition, CameraRotation, FOV, Interior)
-    End Function
+    'Public Overrides Function ToString() As String
+    '    Return String.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}", FootEntrance, VehicleEntrance, FootExit, FootExit2, Elevator, MenuActivator, Heading, Interior)
+    'End Function
 End Class

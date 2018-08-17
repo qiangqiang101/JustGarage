@@ -6,13 +6,14 @@ Imports System.Windows.Forms
 
 Public Class Garage
 
-    Private _cost, _interiorID As Integer
-    Private _owner, _name, _desc, _floor, _garagePath, _saveFile, _playerMap, _ipl, _lastIpl As String
+    Private _cost, _interiorID, _sellSignHash As Integer
+    Private _owner, _name, _desc, _floor, _garagePath, _playerMap, _ipl, _lastIpl, _save As String
     Private _blip As Blip
-    Private _footEntrance, _footExit, _footExit2, _vehicleEntrance, _camerapos, _camerarot, _interior, _lift, _menuActivator As Vector3
-    Private _vehicleOutHeading, _cameraFov As Single
-    Private _enabled As Boolean
+    Private _footEntrance, _footExit, _footExit2, _vehicleEntrance, _interior, _lift, _menuActivator, _sellSignVector As Vector3
+    Private _vehicleOutHeading As Single
+    Private _enabled, _hasIPL As Boolean
     Private _garageLayout As GarageLayout
+    Private _sellSignProp As Prop
 
     Public Sub New(Name As String, Floor As String, Cost As Integer, Optional Description As String = "")
         _name = Name
@@ -20,7 +21,17 @@ Public Class Garage
         _cost = Cost
         _desc = Description
         _enabled = True
+        Create(Me)
     End Sub
+
+    Public Property Save() As String
+        Get
+            Return _save
+        End Get
+        Set(value As String)
+            _save = value
+        End Set
+    End Property
 
     Public Property Owner() As String
         Get
@@ -112,39 +123,28 @@ Public Class Garage
         End Set
     End Property
 
+    Public Property SellSignPosition() As Vector3
+        Get
+            Return _sellSignVector
+        End Get
+        Set(value As Vector3)
+            _sellSignVector = value
+        End Set
+    End Property
+
+    Public ReadOnly Property SellSignProp() As Prop
+        Get
+            If _sellSignProp = Nothing Then _sellSignProp = World.CreateProp(_sellSignHash, _sellSignVector, True, True)
+            Return _sellSignProp
+        End Get
+    End Property
+
     Public Property VehicleOutHeading() As Single
         Get
             Return _vehicleOutHeading
         End Get
         Set(value As Single)
             _vehicleOutHeading = value
-        End Set
-    End Property
-
-    Public Property CameraPosition() As Vector3
-        Get
-            Return _camerapos
-        End Get
-        Set(value As Vector3)
-            _camerapos = value
-        End Set
-    End Property
-
-    Public Property CameraRotation() As Vector3
-        Get
-            Return _camerarot
-        End Get
-        Set(value As Vector3)
-            _camerarot = value
-        End Set
-    End Property
-
-    Public Property CameraFOV() As Single
-        Get
-            Return _camerafov
-        End Get
-        Set(value As Single)
-            _camerafov = value
         End Set
     End Property
 
@@ -209,21 +209,21 @@ Public Class Garage
         End Set
     End Property
 
-    Public Property SaveFile() As String
+    Public Property RequiredIPL() As Boolean
         Get
-            Return _savefile
+            Return _hasIPL
         End Get
-        Set(value As String)
-            _savefile = value
+        Set(value As Boolean)
+            _hasIPL = value
         End Set
     End Property
 
-    Public Property PlayerMap() As String
+    Public Property SellSignModel() As Integer
         Get
-            Return _playermap
+            Return _sellSignHash
         End Get
-        Set(value As String)
-            _playermap = value
+        Set(value As Integer)
+            _sellSignHash = value
         End Set
     End Property
 
@@ -293,20 +293,9 @@ Public Class Garage
         End Get
     End Property
 
-    Public Shared Function GetInteriorID(interior As Vector3) As Integer
+    Public Function GetInteriorID(interior As Vector3) As Integer
         Return Native.Function.Call(Of Integer)(Hash.GET_INTERIOR_AT_COORDS, interior.X, interior.Y, interior.Z)
     End Function
-
-    Public Sub SetInteriorActive()
-        Try
-            Dim intID As Integer = Native.Function.Call(Of Integer)(Hash.GET_INTERIOR_AT_COORDS, Interior.X, Interior.Y, Interior.Z)
-            Native.Function.Call(Hash._0x2CA429C029CCF247, New InputArgument() {intID})
-            Native.Function.Call(Hash.SET_INTERIOR_ACTIVE, intID, True)
-            Native.Function.Call(Hash.DISABLE_INTERIOR, intID, False)
-        Catch ex As Exception
-            logger.Log(ex.Message & " " & ex.StackTrace)
-        End Try
-    End Sub
 
     Public Sub Create(_garage As Garage)
         _garage.GarageBlip = World.CreateBlip(_garage.FootEntrance)
@@ -327,6 +316,128 @@ Public Class Garage
         End Select
         _garage.GarageBlip.Name = _garage.Name
         _garage.GarageBlip.IsShortRange = True
+    End Sub
+
+    Public Sub Refresh(_garage As Garage)
+        _garage.GarageBlip.Sprite = BlipSprite.Garage
+        Select Case _garage.Owner
+            Case "Michael"
+                _garage.GarageBlip.Color = INMBlipColor.Michael
+            Case "Franklin"
+                _garage.GarageBlip.Color = INMBlipColor.Franklin
+            Case "Trevor"
+                _garage.GarageBlip.Color = INMBlipColor.Trevor
+            Case "Player3"
+                _garage.GarageBlip.Color = INMBlipColor.Yellow
+            Case Else
+                _garage.GarageBlip.Sprite = BlipSprite.GarageForSale
+                _garage.GarageBlip.Color = INMBlipColor.White
+                _garage.GarageBlip.Name = "Garage for Sale"
+        End Select
+        _garage.GarageBlip.Name = _garage.Name
+        _garage.GarageBlip.IsShortRange = True
+    End Sub
+
+    Public Sub Refresh()
+        GarageBlip.Sprite = BlipSprite.Garage
+        Select Case Owner
+            Case "Michael"
+                GarageBlip.Color = INMBlipColor.Michael
+            Case "Franklin"
+                GarageBlip.Color = INMBlipColor.Franklin
+            Case "Trevor"
+                GarageBlip.Color = INMBlipColor.Trevor
+            Case "Player3"
+                GarageBlip.Color = INMBlipColor.Yellow
+            Case Else
+                GarageBlip.Sprite = BlipSprite.GarageForSale
+                GarageBlip.Color = INMBlipColor.White
+                GarageBlip.Name = "Garage for Sale"
+        End Select
+        GarageBlip.Name = Name
+        GarageBlip.IsShortRange = True
+    End Sub
+
+    Public Function SetInteriorActive() As Integer
+        Dim interiorID As Integer = 0
+        Try
+            interiorID = Native.Function.Call(Of Integer)(Hash.GET_INTERIOR_AT_COORDS, Interior.X, Interior.Y, Interior.Z)
+            Native.Function.Call(Hash._0x2CA429C029CCF247, New InputArgument() {interiorID})
+            Native.Function.Call(Hash.SET_INTERIOR_ACTIVE, interiorID, True)
+            Native.Function.Call(Hash.DISABLE_INTERIOR, interiorID, False)
+            Dim arguments As InputArgument() = New InputArgument() {Interior.X, Interior.Y, Interior.Z, 100, True, False, False, False}
+            Native.Function.Call(Hash.CLEAR_AREA, arguments)
+            Dim arguments2 As InputArgument() = New InputArgument() {Interior.X, Interior.Y, Interior.Z, 100, True, True, True, True, True}
+        Catch ex As Exception
+            logger.Log(ex.Message & " " & ex.StackTrace)
+        End Try
+        Return interiorID
+    End Function
+
+    Public Sub OnTick()
+        Try
+            Dim pp As Ped = Game.Player.Character
+
+            If Not Game.IsLoading Then
+                If (Not pp.IsInVehicle AndAlso Not pp.IsDead) AndAlso Owner = GetPlayerName() Then
+                    If GarageDistance <= 3.0 Then
+                        If Game.IsControlJustPressed(0, GTA.Control.Context) Then
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            pp.Position = FootExit
+                            Script.Wait(1000)
+                            Game.FadeScreenIn(1000)
+                        Else
+                            DisplayHelpTextThisFrame(String.Format("Press ~INPUT_CONTEXT to enter {0}.", Name))
+                        End If
+                    End If
+
+                    If FootExitDistance <= 3.0 Or FootExitDistance2 <= 3.0 Then
+                        If Game.IsControlJustPressed(0, GTA.Control.Context) Then
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            pp.Position = VehicleEntrance
+                            Script.Wait(1000)
+                            Game.FadeScreenIn(1000)
+                        Else
+                            DisplayHelpTextThisFrame(String.Format("Press ~INPUT_CONTEXT to exit {0}.", Name))
+                        End If
+                    End If
+                End If
+
+                If (Not pp.IsInVehicle AndAlso Not pp.IsDead) AndAlso Owner = Nothing AndAlso pp.IsNearEntity(SellSignProp, pp.Position) Then
+                    If Game.IsControlJustPressed(0, GTA.Control.Context) Then
+                        pp.Money = (pp.Money - Cost)
+                        Owner = GetPlayerName()
+                        WriteCfgValue(Save, GetPlayerName(), ConfigFile)
+                        Refresh()
+                    Else
+                        DisplayHelpTextThisFrame(String.Format("Press ~INPUT_CONTEXT to purchase {0}.", Name))
+                    End If
+                End If
+
+                If (pp.IsInVehicle AndAlso pp.IsAlive) AndAlso Owner = GetPlayerName() Then
+                    If GarageDistance <= 3.0 Then
+                        If Game.IsControlJustPressed(0, GTA.Control.Context) Then
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If InteriorID = 0 Then InteriorID = SetInteriorActive()
+                            pp.Position = Interior
+                            Script.Wait(1000)
+                            Game.FadeScreenIn(1000)
+                        Else
+                            DisplayHelpTextThisFrame(String.Format("Press ~INPUT_CONTEXT to enter {0}.", Name))
+                        End If
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
+    Public Sub OnAborted()
+        If Not GarageBlip Is Nothing Then GarageBlip.Remove()
     End Sub
 End Class
 
