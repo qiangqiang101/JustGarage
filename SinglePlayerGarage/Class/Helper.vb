@@ -1,4 +1,5 @@
 ﻿Imports GTA
+Imports GTA.Math
 Imports GTA.Native
 
 Module Helper
@@ -33,4 +34,40 @@ Module Helper
         End Select
         Return Name
     End Function
+
+    Private Function WorldCreateVehicle(model As Model, position As Vector3, Optional heading As Single = 0F) As Vehicle
+        If Not model.IsVehicle OrElse Not model.Request(1000) Then
+            Return Nothing
+        End If
+
+        Return New Vehicle([Function].[Call](Of Integer)(Hash.CREATE_VEHICLE, model.Hash, position.X, position.Y, position.Z, heading,
+        False, False))
+    End Function
+
+    Public Function CreateVehicle(VehicleHash As Integer, Position As Vector3, Optional Heading As Single = 0) As Vehicle
+        Dim Result As Vehicle = Nothing
+
+        Dim model = New Model(VehicleHash)
+        model.Request(250)
+        If model.IsInCdImage AndAlso model.IsValid Then
+            While Not model.IsLoaded
+                Script.Wait(0)
+            End While
+            Result = WorldCreateVehicle(model, Position, Heading)
+        End If
+        model.MarkAsNoLongerNeeded()
+        Return Result
+    End Function
+
+    Public Function GetTornadoCustomRoof(veh As Vehicle) As Integer
+        Return Native.Function.Call(Of Integer)(DirectCast(&H60190048C0764A26UL, Hash), veh.Handle)
+    End Function
+
+    Public Sub SetTornadoCustomRoof(veh As Vehicle, liv As Integer)
+        Native.Function.Call(DirectCast(&HA6D3A8750DC73270UL, Hash), veh.Handle, liv)
+    End Sub
+
+    Public Sub SetIntoVehicle(ped As Ped, vehicle As Vehicle, seat As VehicleSeat)
+        Native.Function.Call(Hash.SET_PED_INTO_VEHICLE, ped, vehicle.Handle, seat)
+    End Sub
 End Module

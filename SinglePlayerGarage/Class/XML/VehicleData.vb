@@ -70,7 +70,7 @@ Public Class VehicleData
     Public Property XenonHeadlights As Boolean
     Public Property Turbo As Integer
     Public Property Horn As Integer
-    Public Property BulletproofTyres As Integer
+    Public Property BulletproofTyres As Boolean
     Public Property FrontTireVariation As Boolean
     Public Property BackTireVariation As Boolean
     Public Property PlateHolder As Integer
@@ -96,16 +96,18 @@ Public Class VehicleData
     Public Property Tank As Integer
     Public Property Windows As Integer
     Public Property BennysLivery As Integer
-    Public Property Extra1 As Integer
-    Public Property Extra2 As Integer
-    Public Property Extra3 As Integer
-    Public Property Extra4 As Integer
-    Public Property Extra5 As Integer
-    Public Property Extra6 As Integer
-    Public Property Extra7 As Integer
-    Public Property Extra8 As Integer
-    Public Property Extra9 As Integer
+    Public Property Extra1 As Boolean
+    Public Property Extra2 As Boolean
+    Public Property Extra3 As Boolean
+    Public Property Extra4 As Boolean
+    Public Property Extra5 As Boolean
+    Public Property Extra6 As Boolean
+    Public Property Extra7 As Boolean
+    Public Property Extra8 As Boolean
+    Public Property Extra9 As Boolean
+    Public Property Extra10 As Boolean
     Public Property CustomRoof As Integer
+    Public Property RoofState As VehicleRoofState
 
     Public Overrides Function ToString() As String
         Return String.Format("'{0}' Version: {1}.{2}", VehicleName, Version, MinorVersion)

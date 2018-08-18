@@ -96,6 +96,7 @@
     <Compile Include="Class\XML\ModelRoot.vb" />
     <Compile Include="Class\XML\Node.vb" />
     <Compile Include="Class\XML\XMLRead.vb" />
+    <Compile Include="TenCarGarage.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

@@ -22,6 +22,14 @@ Public Class SPG
                         .Owner = ReadCfgValue(xml.Save, ConfigFile)
                         .GaragePath = xml.GaragePath
                         .GarageLayout = xml.Layout
+                        Select Case .GarageLayout
+                            Case GarageLayout.TenCarGarage
+                                .Layout = New TenCarGarage(garage, .GaragePath)
+                            Case GarageLayout.SixCarGarage
+                                '.Layout = New TenCarGarage(garage, .GaragePath)
+                            Case GarageLayout.TwoCarGarage
+                                '.Layout = New TenCarGarage(garage, .GaragePath)
+                        End Select
                         .RequiredIPL = xml.RequiredIPL
                         .InteriorID = .SetInteriorActive()
                         .FootEntrance = New Vector3(xml.Vectors.FootEntrance.X, xml.Vectors.FootEntrance.Y, xml.Vectors.FootEntrance.Z)

@@ -14,6 +14,7 @@ Public Class Garage
     Private _enabled, _hasIPL As Boolean
     Private _garageLayout As GarageLayout
     Private _sellSignProp As Prop
+    Private _layout As Object
 
     Public Sub New(Name As String, Floor As String, Cost As Integer, Optional Description As String = "")
         _name = Name
@@ -23,6 +24,15 @@ Public Class Garage
         _enabled = True
         Create(Me)
     End Sub
+
+    Public Property Layout() As Object
+        Get
+            Return _layout
+        End Get
+        Set(value As Object)
+            _layout = value
+        End Set
+    End Property
 
     Public Property Save() As String
         Get
@@ -374,17 +384,157 @@ Public Class Garage
         Return interiorID
     End Function
 
+    Public Function SaveVehicle(vehicle As Vehicle) As Vehicle
+        Dim result As Vehicle = vehicle
+        If Not IO.File.Exists(GaragePath & "Vehicle_1.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_1.xml")
+            result = Layout.Vehicle1
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_2.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_2.xml")
+            result = Layout.Vehicle2
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_3.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_3.xml")
+            result = Layout.Vehicle3
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_4.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_4.xml")
+            result = Layout.Vehicle4
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_5.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_5.xml")
+            result = Layout.Vehicle5
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_6.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_6.xml")
+            result = Layout.Vehicle6
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_7.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_7.xml")
+            result = Layout.Vehicle7
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_8.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_8.xml")
+            result = Layout.Vehicle8
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_9.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_9.xml")
+            result = Layout.Vehicle9
+        End If
+        If Not IO.File.Exists(GaragePath & "Vehicle_10.xml") Then
+            SaveVehicleXML(vehicle, "vehicle_10.xml")
+            result = Layout.Vehicle10
+        End If
+        Return result
+    End Function
+
+    Private Sub SaveVehicleXML(vehicle As Vehicle, xmlFile As String)
+        Dim vehData = New VehicleData(vehicle.FriendlyName)
+        With vehData
+            .VehicleHash = vehicle.Model.GetHashCode()
+            .PrimaryColor = vehicle.PrimaryColor
+            .SecondaryColor = vehicle.PrimaryColor
+            .PearlescentColor = vehicle.PearlescentColor
+            .HasCustomPrimaryColor = vehicle.IsPrimaryColorCustom
+            .HasCustomSecondaryColor = vehicle.IsSecondaryColorCustom
+            .CustomPrimaryColorRed = vehicle.CustomPrimaryColor.R
+            .CustomPrimaryColorGreen = vehicle.CustomPrimaryColor.G
+            .CustomPrimaryColorBlue = vehicle.CustomPrimaryColor.B
+            .CustomSecondaryColorRed = vehicle.CustomSecondaryColor.R
+            .CustomSecondaryColorGreen = vehicle.CustomSecondaryColor.G
+            .CustomSecondaryColorBlue = vehicle.CustomSecondaryColor.B
+            .RimColor = vehicle.RimColor
+            .HasNeonLightBack = vehicle.IsNeonLightsOn(VehicleNeonLight.Back)
+            .HasNeonLightFront = vehicle.IsNeonLightsOn(VehicleNeonLight.Front)
+            .HasNeonLightLeft = vehicle.IsNeonLightsOn(VehicleNeonLight.Left)
+            .HasNeonLightRight = vehicle.IsNeonLightsOn(VehicleNeonLight.Right)
+            .NeonColorRed = vehicle.NeonLightsColor.R
+            .NeonColorGreen = vehicle.NeonLightsColor.G
+            .NeonColorBlue = vehicle.NeonLightsColor.B
+            .DashboardColor = vehicle.DashboardColor
+            .TrimColor = vehicle.TrimColor
+            .WheelType = vehicle.WheelType
+            .Livery = vehicle.Livery
+            .PlateType = vehicle.NumberPlateType
+            .WindowTint = vehicle.WindowTint
+            .Spoiler = vehicle.GetMod(VehicleMod.Spoilers)
+            .FrontBumper = vehicle.GetMod(VehicleMod.FrontBumper)
+            .RearBumper = vehicle.GetMod(VehicleMod.RearBumper)
+            .SideSkirt = vehicle.GetMod(VehicleMod.SideSkirt)
+            .Frame = vehicle.GetMod(VehicleMod.Frame)
+            .Grille = vehicle.GetMod(VehicleMod.Grille)
+            .Hood = vehicle.GetMod(VehicleMod.Hood)
+            .Fender = vehicle.GetMod(VehicleMod.Fender)
+            .RightFender = vehicle.GetMod(VehicleMod.RightFender)
+            .Roof = vehicle.GetMod(VehicleMod.Roof)
+            .Exhaust = vehicle.GetMod(VehicleMod.Exhaust)
+            .FrontWheels = vehicle.GetMod(VehicleMod.FrontWheels)
+            .FrontTireVariation = Native.Function.Call(Of Boolean)(Hash.GET_VEHICLE_MOD_VARIATION, vehicle, 23)
+            .BackTireVariation = Native.Function.Call(Of Boolean)(Hash.GET_VEHICLE_MOD_VARIATION, vehicle, 24)
+            .Suspension = vehicle.GetMod(VehicleMod.Suspension)
+            .Engine = vehicle.GetMod(VehicleMod.Engine)
+            .Brakes = vehicle.GetMod(VehicleMod.Brakes)
+            .Transmission = vehicle.GetMod(VehicleMod.Transmission)
+            .Armor = vehicle.GetMod(VehicleMod.Armor)
+            .PlateHolder = vehicle.GetMod(VehicleMod.PlateHolder)
+            .VanityPlates = vehicle.GetMod(VehicleMod.VanityPlates)
+            .TrimDesign = vehicle.GetMod(VehicleMod.TrimDesign)
+            .Ornaments = vehicle.GetMod(VehicleMod.Ornaments)
+            .Dashboard = vehicle.GetMod(VehicleMod.Dashboard)
+            .DialDesign = vehicle.GetMod(VehicleMod.DialDesign)
+            .DoorSpeakers = vehicle.GetMod(VehicleMod.DoorSpeakers)
+            .Seats = vehicle.GetMod(VehicleMod.Seats)
+            .SteeringWheels = vehicle.GetMod(VehicleMod.SteeringWheels)
+            .ColumnShifterLevers = vehicle.GetMod(VehicleMod.ColumnShifterLevers)
+            .Plaques = vehicle.GetMod(VehicleMod.Plaques)
+            .Speakers = vehicle.GetMod(VehicleMod.Speakers)
+            .Trunk = vehicle.GetMod(VehicleMod.Trunk)
+            .Hydraulics = vehicle.GetMod(VehicleMod.Hydraulics)
+            .EngineBlock = vehicle.GetMod(VehicleMod.EngineBlock)
+            .AirFilter = vehicle.GetMod(VehicleMod.AirFilter)
+            .Struts = vehicle.GetMod(VehicleMod.Struts)
+            .ArchCover = vehicle.GetMod(VehicleMod.ArchCover)
+            .Aerials = vehicle.GetMod(VehicleMod.Aerials)
+            .Trim = vehicle.GetMod(VehicleMod.Trim)
+            .Tank = vehicle.GetMod(VehicleMod.Tank)
+            .Windows = vehicle.GetMod(VehicleMod.Windows)
+            .BennysLivery = vehicle.GetMod(VehicleMod.Livery)
+            .Horn = vehicle.GetMod(VehicleMod.Horns)
+            .XenonHeadlights = vehicle.IsToggleModOn(VehicleToggleMod.XenonHeadlights)
+            .Turbo = vehicle.IsToggleModOn(VehicleToggleMod.Turbo)
+            .TyreSmokeColorRed = vehicle.TireSmokeColor.R
+            .TyreSmokeColorGreen = vehicle.TireSmokeColor.G
+            .TyreSmokeColorBlue = vehicle.TireSmokeColor.B
+            .BulletproofTyres = vehicle.CanTiresBurst
+            .RoofState = vehicle.RoofState
+            .CustomRoof = GetTornadoCustomRoof(vehicle)
+            .Extra1 = vehicle.IsExtraOn(1)
+            .Extra2 = vehicle.IsExtraOn(2)
+            .Extra3 = vehicle.IsExtraOn(3)
+            .Extra4 = vehicle.IsExtraOn(4)
+            .Extra5 = vehicle.IsExtraOn(5)
+            .Extra6 = vehicle.IsExtraOn(6)
+            .Extra7 = vehicle.IsExtraOn(7)
+            .Extra8 = vehicle.IsExtraOn(8)
+            .Extra9 = vehicle.IsExtraOn(9)
+            .Extra10 = vehicle.IsExtraOn(10)
+        End With
+        XMLRead.WriteXmlToFile(xmlFile, vehData)
+    End Sub
+
     Public Sub OnTick()
         Try
             Dim pp As Ped = Game.Player.Character
 
             If Not Game.IsLoading Then
                 If (Not pp.IsInVehicle AndAlso Not pp.IsDead) AndAlso Owner = GetPlayerName() Then
-                    If GarageDistance <= 3.0 Then
+                    If GarageDistance <= 3.0 Then 'Outside teleport to Garage Door
                         If Game.IsControlJustPressed(0, GTA.Control.Context) Then
                             Game.FadeScreenOut(1000)
                             Script.Wait(1000)
                             pp.Position = FootExit
+                            Layout.LoadGarageVehicles()
                             Script.Wait(1000)
                             Game.FadeScreenIn(1000)
                         Else
@@ -392,11 +542,12 @@ Public Class Garage
                         End If
                     End If
 
-                    If FootExitDistance <= 3.0 Or FootExitDistance2 <= 3.0 Then
+                    If FootExitDistance <= 3.0 Or FootExitDistance2 <= 3.0 Then 'Garage Door teleport to Outside
                         If Game.IsControlJustPressed(0, GTA.Control.Context) Then
                             Game.FadeScreenOut(1000)
                             Script.Wait(1000)
                             pp.Position = VehicleEntrance
+                            Layout.DeleteGarageVehicles()
                             Script.Wait(1000)
                             Game.FadeScreenIn(1000)
                         Else
@@ -405,7 +556,7 @@ Public Class Garage
                     End If
                 End If
 
-                If (Not pp.IsInVehicle AndAlso Not pp.IsDead) AndAlso Owner = Nothing AndAlso pp.IsNearEntity(SellSignProp, pp.Position) Then
+                If (Not pp.IsInVehicle AndAlso Not pp.IsDead) AndAlso Owner = Nothing AndAlso pp.IsNearEntity(SellSignProp, pp.Position) Then 'Buy Garage
                     If Game.IsControlJustPressed(0, GTA.Control.Context) Then
                         pp.Money = (pp.Money - Cost)
                         Owner = GetPlayerName()
@@ -417,22 +568,113 @@ Public Class Garage
                 End If
 
                 If (pp.IsInVehicle AndAlso pp.IsAlive) AndAlso Owner = GetPlayerName() Then
-                    If GarageDistance <= 3.0 Then
+                    If GarageDistance <= 3.0 Then 'In Vehicle Outside teleport to Garage and Save vehicle
                         If Game.IsControlJustPressed(0, GTA.Control.Context) Then
                             Game.FadeScreenOut(1000)
                             Script.Wait(1000)
                             If InteriorID = 0 Then InteriorID = SetInteriorActive()
+                            Layout.LoadGarageVehicles()
+
+                            Dim pv As Vehicle = pp.LastVehicle
+                            Dim sv As Vehicle = SaveVehicle(pv)
+                            pv.Delete()
                             pp.Position = Interior
+                            SetIntoVehicle(pp, sv, VehicleSeat.Driver)
+                            pp.Task.LeaveVehicle(pp.LastVehicle, True)
+
                             Script.Wait(1000)
                             Game.FadeScreenIn(1000)
                         Else
                             DisplayHelpTextThisFrame(String.Format("Press ~INPUT_CONTEXT to enter {0}.", Name))
                         End If
                     End If
+
+                    'Exiting Garage teleport to outside with vehicle
+                    Dim layout_ As TenCarGarage = Layout
+                    Select Case pp.CurrentVehicle
+                        Case layout_.Vehicle1
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle1.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_1.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle2
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle2.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_2.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle3
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle3.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_3.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle4
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle4.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_4.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle5
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle5.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_5.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle6
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle6.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_6.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle7
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle7.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_7.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle8
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle8.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_8.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle9
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle9.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_9.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case layout_.Vehicle10
+                            Game.FadeScreenOut(1000)
+                            Script.Wait(1000)
+                            If layout_.Vehicle10.Speed >= 1.5 Then
+                                IO.File.Delete(GaragePath & "vehicle_10.xml")
+                                GoTo ExitGarage
+                            End If
+                        Case Else
+                            Exit Sub
+                    End Select
+
+ExitGarage:
+                    pp.CurrentVehicle.Position = VehicleEntrance
+                    pp.CurrentVehicle.Heading = VehicleOutHeading
+                    Script.Wait(1000)
+                    Game.FadeScreenIn(1000)
                 End If
             End If
         Catch ex As Exception
-
+            logger.Log(ex.Message & " " & ex.StackTrace)
         End Try
     End Sub
 
